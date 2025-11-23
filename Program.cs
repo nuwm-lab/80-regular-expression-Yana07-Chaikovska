@@ -2,38 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace PhoneFinder
+namespace RegexIpFinder
 {
     internal class Program
     {
         static void Main()
         {
-            Console.WriteLine("Введіть текст для пошуку номерів телефону:");
+            Console.WriteLine("Введіть текст для пошуку IP-адрес:");
             string inputText = Console.ReadLine() ?? string.Empty;
 
-            List<string> phones = FindPhones(inputText);
+            List<string> ipAddresses = FindIpAddresses(inputText);
 
-            if (phones.Count == 0)
+            if (ipAddresses.Count == 0)
             {
-                Console.WriteLine("Номери телефону не знайдено.");
+                Console.WriteLine("IP-адрес не знайдено.");
             }
             else
             {
-                Console.WriteLine("Знайдені номери телефону:");
-                foreach (string phone in phones)
+                Console.WriteLine("Знайдені IP-адреси:");
+                foreach (string ip in ipAddresses)
                 {
-                    Console.WriteLine(phone);
+                    Console.WriteLine(ip);
                 }
             }
         }
 
-        private static List<string> FindPhones(string text)
+        private static List<string> FindIpAddresses(string text)
         {
-            const string phonePattern = @"\+3\(\d{3}\)-\d{3}-\d{4}";
+            const string ipPattern =
+                @"\b((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}"
+                + @"(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b";
 
             List<string> results = new List<string>();
 
-            MatchCollection matches = Regex.Matches(text, phonePattern);
+            MatchCollection matches = Regex.Matches(text, ipPattern);
 
             foreach (Match match in matches)
             {
@@ -44,3 +46,7 @@ namespace PhoneFinder
         }
     }
 }
+
+
+
+
